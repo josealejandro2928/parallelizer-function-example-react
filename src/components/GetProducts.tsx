@@ -122,7 +122,7 @@ const GetProducts = ({ setData = () => {} }: { setData: (x: any) => any }) => {
 
   return (
     <>
-      <h3>Example2: Generate all permotations up to n</h3>
+      <h3>Example2: Making Several Request to external endpoint</h3>
       <p>
         {' '}
         You can use the workerPromise package for performing IO tasks involving

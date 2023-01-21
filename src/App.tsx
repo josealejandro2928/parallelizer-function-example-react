@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import './App.scss';
 import FibonacciComputator from './components/Fibonacci';
-import GeneratePermutation from './components/GeneratePermutation';
+import SimulateLongTask from './components/SimulateLongTask';
 import GetProducts, { IProduct } from './components/GetProducts';
 
 function App() {
   const [count, setCount] = useState(0);
-  const [permutations, setPermutations] = useState<Array<Array<number>>>([]);
+  const [delayS, setDelayS] = useState<number>(0);
+  const [simulateLongTask, setSimulateLongTask] = useState<number>(0);
   const [dataProduct, setDataProducts] =
     useState<{ products: Array<IProduct>; meta: any }>();
 
@@ -43,34 +44,23 @@ function App() {
       <hr />
       <div className="main-container">
         <div className="side-l">
-          <GeneratePermutation
-            setPermutations={setPermutations}
-          ></GeneratePermutation>
+          <SimulateLongTask
+            setDelayS={setDelayS}
+            setSimulateLongTask={setSimulateLongTask}
+          ></SimulateLongTask>
         </div>
         <div
           className="side-r"
           style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
         >
-          {permutations && (
-            <>
-              <div>
-                <h3>The total of permutation are: {permutations.length}</h3>
-              </div>
-              <div>
-                {permutations.slice(0, 24).map((value, index) => {
-                  return (
-                    <>
-                      <span>[{value.toString()}]</span>
-                      {index < Math.min(24 - 1, permutations.length - 1) && (
-                        <span>, </span>
-                      )}
-                    </>
-                  );
-                })}
-                {permutations.length > 24 && <>...</>}
-              </div>
-            </>
-          )}
+          <div>
+            <h3>The delay in seconds of the long task is: {delayS} s</h3>
+          </div>
+          <div>
+            <p style={{ margin: 0 }}>
+              The number of iteration was: {simulateLongTask}
+            </p>
+          </div>
         </div>
       </div>
       <hr />

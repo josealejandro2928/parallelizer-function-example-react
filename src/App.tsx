@@ -4,6 +4,7 @@ import './App.scss';
 import FibonacciComputator from './components/Fibonacci';
 import SimulateLongTask from './components/SimulateLongTask';
 import GetProducts, { IProduct } from './components/GetProducts';
+import { pool } from 'parallelizer-function';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -15,6 +16,10 @@ function App() {
   useEffect(() => {
     console.log(dataProduct);
   }, [dataProduct]);
+
+  useEffect(() => {
+    pool.setMaxWorkers(2);
+  }, []);
 
   return (
     <div className="App">

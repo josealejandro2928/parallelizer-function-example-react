@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import workerPromise from 'parallelizer-function';
+import { pool } from 'parallelizer-function';
 import 'highlight.js/styles/atom-one-dark-reasonable.css';
 import hljs from 'highlight.js';
 
@@ -9,6 +9,7 @@ const FibonacciComputator = () => {
 
   const [nonBlockInput, setNonBlockInput] = useState(42);
   const [nonBlockValue, setNonBlockValue] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     hljs.highlightAll();
@@ -21,12 +22,16 @@ const FibonacciComputator = () => {
   }
 
   function onUpdateBlockValue() {
+    setLoading(true);
     let fib: number = fibonacci(blockInput);
     setBlockValue(fib);
+    setLoading(false);
   }
 
   async function onUpdateNonBlockValue() {
-    let fib: number = await workerPromise(fibonacci, [nonBlockInput]);
+    setLoading(true);
+    let fib: number = await pool.exec(fibonacci, [nonBlockInput]);
+    setLoading(false);
     setNonBlockValue(fib);
   }
 
@@ -77,6 +82,7 @@ const FibonacciComputator = () => {
           >
             Compute
           </button>
+          {loading && 'Loading ...'}
           <span>result: </span>
           <span>
             <strong>{blockValue}</strong>
@@ -113,6 +119,7 @@ const FibonacciComputator = () => {
           >
             Compute
           </button>
+          {loading && 'Loading ...'}
           <span>result: </span>
           <span>
             <strong>{nonBlockValue}</strong>
